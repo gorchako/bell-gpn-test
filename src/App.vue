@@ -4,7 +4,7 @@
       <router-link to="/">Главная</router-link> |
       <router-link to="/history">История</router-link>
     </nav>
-    <router-view />
+    <router-view class="container" />
   </div>
 </template>
 
@@ -28,5 +28,11 @@ nav {
       color: #42b983;
     }
   }
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 15px;
 }
 </style>

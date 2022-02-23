@@ -1,16 +1,9 @@
-interface FakeItem {
-  id: number;
-  name: string;
-  items: Array<{
-    id: number;
-    name: string;
-  }>;
-}
-
-const fakeData: Array<FakeItem> = [];
-const names: Array<string> = ["One", "Two", "Three", "Four", "Five"];
+import { FakeItem } from "@/interface/FakeItem";
 
 export default function fillFakeData() {
+  const fakeData: Array<FakeItem> = [];
+  const names: Array<string> = ["One", "Two", "Three", "Four", "Five"];
+
   for (let i = 0; i < 100; i++) {
     fakeData.push({
       id: i,
