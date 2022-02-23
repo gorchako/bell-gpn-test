@@ -14,4 +14,27 @@ function getIndexOfItem(
   return targetArr.findIndex((item) => item[fieldName] === fieldValue);
 }
 
-export { getRandNum, getRandItemFromArr, getIndexOfItem };
+function padTo2Digits(num: number) {
+  return num.toString().padStart(2, "0");
+}
+
+function formatDate(date: Date) {
+  return {
+    date: [
+      padTo2Digits(date.getDate()),
+      padTo2Digits(date.getMonth() + 1),
+      date.getFullYear(),
+    ].join("."),
+    time: [padTo2Digits(date.getHours()), padTo2Digits(date.getMinutes())].join(
+      ":"
+    ),
+  };
+}
+
+export {
+  getRandNum,
+  getRandItemFromArr,
+  getIndexOfItem,
+  padTo2Digits,
+  formatDate,
+};

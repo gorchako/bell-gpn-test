@@ -11,10 +11,12 @@ export interface FakeItem {
 export interface ItemAction {
   action: string;
   item: FakeItem;
-  date: object;
+  date: string;
 }
 
 export interface State {
   items: Array<FakeItem>;
   actionsHistory: Array<ItemAction>;
+  isItemsLoaded: boolean;
+  isLoading: boolean;
 }

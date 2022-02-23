@@ -18,11 +18,26 @@ const routes: Array<RouteConfig> = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/HistoryView.vue"),
+    children: [
+      {
+        path: "addition",
+        meta: {
+          actionType: "addition",
+        },
+      },
+      {
+        path: "removal",
+        meta: {
+          actionType: "removal",
+        },
+      },
+    ],
   },
 ];
 
 const router = new VueRouter({
   routes,
+  mode: "history",
 });
 
 export default router;

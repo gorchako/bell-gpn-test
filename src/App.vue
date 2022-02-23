@@ -3,8 +3,8 @@
     <nav>
       <router-link to="/">Главная</router-link> |
       <router-link to="/history">История</router-link> |
-      <router-link to="/history">История добавлений</router-link> |
-      <router-link to="/history">История удалений</router-link>
+      <router-link to="/history/addition">История добавлений</router-link> |
+      <router-link to="/history/removal">История удалений</router-link>
     </nav>
     <router-view class="container" />
   </div>

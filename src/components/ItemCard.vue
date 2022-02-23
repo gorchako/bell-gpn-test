@@ -20,9 +20,10 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { FakeItem } from "@/interface";
+import { formatDate } from "@/helpers";
 
 @Component
-export default class HelloWorld extends Vue {
+export default class ItemCard extends Vue {
   @Prop() cardData!: FakeItem;
 
   get btnText() {
@@ -31,8 +32,9 @@ export default class HelloWorld extends Vue {
 
   actionBtnHandler() {
     const action = this.cardData.isSelected ? "remove" : "select";
-    // console.log("Элемент выбран", { action, item: this.cardData });
-    this.$emit("action-item", { action, item: this.cardData });
+    const dateFormatted = formatDate(new Date());
+    const date = `${dateFormatted.date} в ${dateFormatted.time}`;
+    this.$emit("action-item", { action, item: this.cardData, date });
   }
 }
 </script>

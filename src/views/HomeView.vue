@@ -3,18 +3,20 @@
     <div class="home__row">
       <div class="home__col">
         <div class="home__form">
-          <button @click="uploadBtnHandler">Загрузить данные</button>
+          <button @click="uploadBtnHandler" :disabled="isItemsLoaded">
+            Загрузить данные
+          </button>
           <input type="text" placeholder="Фильтр" v-model="filter" />
         </div>
       </div>
-      <div class="home__col home__col--text-left">
-        <span>Выбранные элементы</span>
+      <div class="home__col">
+        <div class="home__message">Выбранные элементы</div>
       </div>
     </div>
 
     <div class="home__row">
       <div class="home__col">
-        <div class="home__items">
+        <div class="home__items" v-if="filteredItems.length">
           <ItemCard
             v-for="(item, index) in filteredItems"
             :key="index"
@@ -22,6 +24,10 @@
             @action-item="actionItemHandler"
           >
           </ItemCard>
+        </div>
+
+        <div class="home__message" v-else-if="isItemsLoaded">
+          По выбранному фильтру ничего не найдено
         </div>
       </div>
 
@@ -41,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Emit } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import ItemCard from "@/components/ItemCard.vue"; // @ is an alias to /src
 import { FakeItem } from "@/interface";
 
@@ -54,6 +60,7 @@ export default class HomeView extends Vue {
   filter = "";
 
   uploadBtnHandler() {
+    if (this.isItemsLoaded) return;
     this.$store.dispatch("uploadStateItems");
   }
 
@@ -63,6 +70,10 @@ export default class HomeView extends Vue {
 
   get selectedItems() {
     return this.$store.getters.getSelectedItems;
+  }
+
+  get isItemsLoaded() {
+    return this.$store.state.isItemsLoaded;
   }
 
   get filteredItems() {
@@ -97,7 +108,6 @@ export default class HomeView extends Vue {
   }
 
   actionItemHandler(event: object) {
-    console.log(event);
     this.$store.dispatch("moveItem", event);
   }
 }
@@ -116,10 +126,6 @@ export default class HomeView extends Vue {
 
   &__col {
     width: 47%;
-
-    &--text-left {
-      text-align: left;
-    }
   }
 
   &__form {
@@ -128,6 +134,10 @@ export default class HomeView extends Vue {
     button + input {
       margin-left: 10px;
     }
+  }
+
+  &__message {
+    text-align: left;
   }
 }
 </style>

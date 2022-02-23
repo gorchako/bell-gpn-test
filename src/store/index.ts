@@ -10,6 +10,8 @@ export default new Vuex.Store({
   state: {
     items: [],
     actionsHistory: [],
+    isLoading: false,
+    isItemsLoaded: false,
   } as State,
   getters: {
     getStateItems(state) {
@@ -18,6 +20,14 @@ export default new Vuex.Store({
 
     getSelectedItems(state) {
       return state.items.filter((item) => item.isSelected);
+    },
+
+    getHistoryByActionSelect(state) {
+      return state.actionsHistory.filter((item) => item.action === "select");
+    },
+
+    getHistoryByActionRemove(state) {
+      return state.actionsHistory.filter((item) => item.action === "remove");
     },
   },
   mutations: {
@@ -34,16 +44,30 @@ export default new Vuex.Store({
       const targetItemIndex = getIndexOfItem(state.items, "id", payload.id);
       state.items[targetItemIndex].isSelected = false;
     },
+
+    setActionToHistory(state, payload: ItemAction) {
+      state.actionsHistory.push(payload);
+    },
+
+    setItemsLoaded(state, payload: boolean) {
+      state.isItemsLoaded = payload;
+    },
+
+    setLoading(state, payload: boolean) {
+      state.isLoading = payload;
+    },
   },
   actions: {
     async uploadStateItems({ state, commit }) {
+      commit("setLoading", true);
       const result = await new Promise((res) => {
         setTimeout(() => {
           res(fillFakeData());
         }, 1000);
       });
-      console.log("result", result);
+      commit("setLoading", false);
       commit("setStateItems", result);
+      commit("setItemsLoaded", true);
     },
 
     moveItem({ state, commit }, payload: ItemAction) {
@@ -52,6 +76,7 @@ export default new Vuex.Store({
       } else {
         commit("removeItem", payload.item);
       }
+      commit("setActionToHistory", payload);
     },
   },
   modules: {},
