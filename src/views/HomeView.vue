@@ -7,6 +7,9 @@
           <input type="text" placeholder="Фильтр" v-model="filter" />
         </div>
       </div>
+      <div class="home__col home__col--text-left">
+        <span>Выбранные элементы</span>
+      </div>
     </div>
 
     <div class="home__row">
@@ -16,12 +19,23 @@
             v-for="(item, index) in filteredItems"
             :key="index"
             :card-data="item"
+            @action-item="actionItemHandler"
           >
           </ItemCard>
         </div>
       </div>
 
-      <div class="home__col">Вторая колонка</div>
+      <div class="home__col">
+        <div class="home__items">
+          <ItemCard
+            v-for="(item, index) in selectedItems"
+            :key="index"
+            :card-data="item"
+            @action-item="actionItemHandler"
+          >
+          </ItemCard>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -29,7 +43,7 @@
 <script lang="ts">
 import { Component, Vue, Emit } from "vue-property-decorator";
 import ItemCard from "@/components/ItemCard.vue"; // @ is an alias to /src
-import { FakeItem } from "@/interface/FakeItem";
+import { FakeItem } from "@/interface";
 
 @Component({
   components: {
@@ -44,7 +58,11 @@ export default class HomeView extends Vue {
   }
 
   get items() {
-    return this.$store.state.items;
+    return this.$store.getters.getStateItems;
+  }
+
+  get selectedItems() {
+    return this.$store.getters.getSelectedItems;
   }
 
   get filteredItems() {
@@ -77,6 +95,11 @@ export default class HomeView extends Vue {
       { count: 0 }
     ).count;
   }
+
+  actionItemHandler(event: object) {
+    console.log(event);
+    this.$store.dispatch("moveItem", event);
+  }
 }
 </script>
 
@@ -84,6 +107,7 @@ export default class HomeView extends Vue {
 .home {
   &__row {
     display: flex;
+    justify-content: space-between;
   }
 
   &__row + &__row {
@@ -92,6 +116,10 @@ export default class HomeView extends Vue {
 
   &__col {
     width: 47%;
+
+    &--text-left {
+      text-align: left;
+    }
   }
 
   &__form {

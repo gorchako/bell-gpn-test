@@ -1,4 +1,5 @@
-import { FakeItem } from "@/interface/FakeItem";
+import { FakeItem } from "@/interface";
+import { getRandItemFromArr } from "@/helpers";
 
 export default function fillFakeData() {
   const fakeData: Array<FakeItem> = [];
@@ -20,12 +21,4 @@ export default function fillFakeData() {
   }
 
   return fakeData;
-}
-
-function getRandNum(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-function getRandItemFromArr(array: Array<any>) {
-  return array[getRandNum(0, array.length)];
 }

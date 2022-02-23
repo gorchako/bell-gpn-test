@@ -2,6 +2,9 @@
   <div class="item-card">
     <div class="item-card__id">{{ cardData.id }}</div>
     <div class="item-card__name">{{ cardData.name }}</div>
+    <div class="item-card__action">
+      <button @click="actionBtnHandler">{{ btnText }}</button>
+    </div>
     <div class="item-card__children" v-if="cardData.items.length">
       <span
         class="item-card__child"
@@ -16,10 +19,21 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import { FakeItem } from "@/interface";
 
 @Component
 export default class HelloWorld extends Vue {
-  @Prop() cardData!: object;
+  @Prop() cardData!: FakeItem;
+
+  get btnText() {
+    return this.cardData.isSelected ? "-" : "+";
+  }
+
+  actionBtnHandler() {
+    const action = this.cardData.isSelected ? "remove" : "select";
+    // console.log("Элемент выбран", { action, item: this.cardData });
+    this.$emit("action-item", { action, item: this.cardData });
+  }
 }
 </script>
 
@@ -59,6 +73,11 @@ export default class HelloWorld extends Vue {
     &:not(:last-child):after {
       content: "•";
     }
+  }
+
+  &__action {
+    align-self: center;
+    margin-left: 10px;
   }
 }
 </style>
