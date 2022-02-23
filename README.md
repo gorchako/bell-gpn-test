@@ -1,24 +1,13 @@
 # bell-gpn-test
+Решение тестового задания
 
-## Project setup
+## Перед запуском
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Компиляция и запуск приложения в development-режиме с поддержкой автоматической перезагрузки страницы при внесении изменений
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+После запуска сборки приложение будет доступно для просмотра на локальном сервере: http://localhost:8080/
